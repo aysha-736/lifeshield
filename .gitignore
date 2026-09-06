@@ -1,0 +1,22 @@
+# Environment / secrets
+.env
+backend/.env
+
+# Python
+__pycache__/
+*.pyc
+backend/venv/
+backend/env/
+
+# Node / React
+frontend/node_modules/
+frontend/build/
+frontend/dist/
+
+# Database
+database/*.db
+database/*.sqlite3
+
+# Editor
+.vscode/
+.DS_Store
