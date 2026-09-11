@@ -140,25 +140,36 @@ function App() {
   rows="8"
 ></textarea>
 
-    <button
+   <button
   className="primary-btn"
-  onClick={() => {
+  onClick={async () => {
     if (message.trim() === "") {
       setResult("Please paste a message first.");
-    } else if (
-      message.toLowerCase().includes("urgent") ||
-      message.toLowerCase().includes("click") ||
-      message.toLowerCase().includes("winner") ||
-      message.toLowerCase().includes("verify")
-    ) {
-      setResult("⚠️ This message contains possible warning signs. Be careful before responding or clicking any links.");
-    } else {
-      setResult("✅ No obvious warning signs were detected. Still stay cautious with unexpected messages.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/check-message", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: message,
+        }),
+      });
+
+      const data = await response.json();
+
+      setResult(data.message);
+    } catch (error) {
+      setResult("Unable to connect to the LifeShield server.");
     }
   }}
 >
   Check Message
 </button>
+
 {result && <p className="check-result">{result}</p>}
   </div>
 </section>
