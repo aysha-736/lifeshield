@@ -109,3 +109,52 @@ def check_message(data: dict):
         "message": "No obvious warning signs were detected. Still stay cautious with unexpected messages.",
         "warning_signs": [],
     }
+
+@app.post("/api/check-url")
+def check_url(data: dict):
+    url = data.get("url", "").strip()
+
+    if not url:
+        return {
+            "risk_level": "unknown",
+            "message": "Please enter a URL to check.",
+            "warning_signs": []
+        }
+
+    lower_url = url.lower()
+
+    warning_signs = []
+
+    suspicious_words = [
+        "login",
+        "verify",
+        "account",
+        "password",
+        "winner",
+        "claim",
+        "free",
+        "urgent"
+    ]
+
+    for word in suspicious_words:
+        if word in lower_url:
+            warning_signs.append(word)
+
+    if "http://" in lower_url:
+        warning_signs.append("insecure http connection")
+
+    if "@" in url:
+        warning_signs.append("unusual @ symbol")
+
+    if warning_signs:
+        return {
+            "risk_level": "warning",
+            "message": "This URL has some warning signs. Avoid entering passwords, OTPs, or personal information unless you are sure the website is trustworthy.",
+            "warning_signs": warning_signs
+        }
+
+    return {
+        "risk_level": "low",
+        "message": "No obvious warning signs were detected in this URL. Still check the website address carefully before sharing personal information.",
+        "warning_signs": []
+    }

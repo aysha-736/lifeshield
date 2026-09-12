@@ -501,3 +501,39 @@ footer {
   font-size: 15px;
   line-height: 1.6;
 }
+
+/* URL Checker */
+.url-checker {
+  margin-top: 30px;
+}
+
+.url-checker input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px;
+  margin: 12px 0 18px;
+  border: 1px solid #dcd8cf;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #132436;
+  font-family: inherit;
+  font-size: 16px;
+}
+
+.url-checker input:focus {
+  outline: 2px solid #2e7566;
+  border-color: #2e7566;
+}
+
+.url-checker .section-intro {
+  margin-bottom: 8px;
+}
+
+/* Safety Tips */
+.tips-section {
+  background: #f5f3ee;
+}
+
+.tips-section .learn-grid {
+  margin-top: 35px;
+}
