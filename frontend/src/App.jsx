@@ -162,7 +162,7 @@ function App() {
       const data = await response.json();
 
       setResult(data.message);
-    } catch (error) {
+    } catch  {
       setResult("Unable to connect to the LifeShield server.");
     }
   }}

@@ -1,7 +1,25 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from database import get_connection
 
 app = FastAPI(title="LifeShield API")
+def create_tables():
+    connection = get_connection()
+
+    connection.execute("""
+        CREATE TABLE IF NOT EXISTS checks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            message TEXT NOT NULL,
+            risk_level TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    connection.commit()
+    connection.close()
+
+
+create_tables()
 
 app.add_middleware(
     CORSMiddleware,
@@ -18,6 +36,12 @@ app.add_middleware(
 @app.get("/")
 def read_root():
     return {"message": "LifeShield API is running"}
+@app.get("/api/database-test")
+def database_test():
+    connection = get_connection()
+    connection.close()
+
+    return {"message": "LifeShield database connection is working"}
 
 
 @app.post("/api/check-message")
