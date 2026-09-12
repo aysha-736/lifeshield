@@ -1,6 +1,7 @@
 import sqlite3
+from pathlib import Path
 
-DATABASE_PATH = "../database/lifeshield.db"
+DATABASE_PATH = Path(__file__).resolve().parent.parent / "database" / "lifeshield.db"
 
 
 def get_connection():

@@ -72,11 +72,37 @@ def check_message(data: dict):
     ]
 
     if found_warnings:
+        connection = get_connection()
+
+        connection.execute(
+            """
+            INSERT INTO checks (message, risk_level)
+            VALUES (?, ?)
+            """,
+            (message, "warning"),
+        )
+
+        connection.commit()
+        connection.close()
+
         return {
             "risk_level": "warning",
             "message": "This message contains possible warning signs. Be careful before responding or clicking any links.",
             "warning_signs": found_warnings,
         }
+
+    connection = get_connection()
+
+    connection.execute(
+        """
+        INSERT INTO checks (message, risk_level)
+        VALUES (?, ?)
+        """,
+        (message, "low"),
+    )
+
+    connection.commit()
+    connection.close()
 
     return {
         "risk_level": "low",
